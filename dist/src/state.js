@@ -34,6 +34,16 @@ export function validBackup(p) {
   for (const day of Object.values(p.daily || {})) {
     if (!record(day) || !numbers(day, ['newN', 'revN', 'okN', 'totalN'])) return false;
   }
+  if (!optional(p, 'mistakes', value => record(value) && safeKeys(value))) return false;
+  for (const [key, mistake] of Object.entries(p.mistakes || {})) {
+    if (!record(mistake) || typeof mistake.word !== 'string' || !mistake.word.trim() ||
+      key !== mistake.word.trim().toLowerCase().replace(/\s+/g, ' ') ||
+      typeof mistake.meaning !== 'string' || typeof mistake.active !== 'boolean' ||
+      !count(mistake.correct) || mistake.correct > 3 ||
+      (mistake.active ? mistake.correct >= 3 : mistake.correct !== 3) ||
+      !['lastAt', 'wrongCount', 'cleared'].every(k => count(mistake[k])) ||
+      mistake.wrongCount < 1 || (!mistake.active && mistake.cleared < 1)) return false;
+  }
   return Object.values(p.awards || {}).every(count);
 }
 

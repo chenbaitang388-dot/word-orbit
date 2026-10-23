@@ -1,6 +1,6 @@
 import { MASTER_STAGE } from './core.js';
 
-const count = value => Number.isFinite(value) && value > 0 ? Math.floor(value) : 0;
+const achievementCount = value => Number.isFinite(value) && value > 0 ? Math.floor(value) : 0;
 
 // Compare calendar dates in UTC so daylight-saving clock changes cannot break a run.
 function dateNumber(key) {
@@ -12,8 +12,8 @@ function dateNumber(key) {
 
 export function achievementValues(state = {}, summary = {}) {
   const days = Object.entries(state.daily || {})
-    .filter(([, day]) => count(day?.totalN) > 0)
-    .map(([key, day]) => ({ number: dateNumber(key), answers: count(day.totalN) }))
+    .filter(([, day]) => achievementCount(day?.totalN) > 0)
+    .map(([key, day]) => ({ number: dateNumber(key), answers: achievementCount(day.totalN) }))
     .filter(day => day.number !== null)
     .sort((a, b) => a.number - b.number);
   let longest = 0, run = 0, previous = null;
@@ -25,12 +25,12 @@ export function achievementValues(state = {}, summary = {}) {
   const progress = Object.values(state.prog || {});
   return {
     words: progress.length,
-    xp: count(state.xp),
-    mastered: progress.filter(p => count(p?.stage) >= MASTER_STAGE).length,
+    xp: achievementCount(state.xp),
+    mastered: progress.filter(p => achievementCount(p?.stage) >= MASTER_STAGE).length,
     // Historical runs keep earned streak badges lit even after a missed day.
-    streak: Math.max(longest, count(summary.streak)),
+    streak: Math.max(longest, achievementCount(summary.streak)),
     activeDays: days.length,
     answers: days.reduce((sum, day) => sum + day.answers, 0),
-    corrections: Object.values(state.mistakes || {}).reduce((sum, record) => sum + count(record?.cleared), 0),
+    corrections: Object.values(state.mistakes || {}).reduce((sum, record) => sum + achievementCount(record?.cleared), 0),
   };
 }

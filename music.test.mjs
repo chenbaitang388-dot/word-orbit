@@ -70,7 +70,7 @@ try{
  const offlineContext=await browser.newContext(),offline=await offlineContext.newPage();
  await offline.goto('http://127.0.0.1:8137/');
  await offline.evaluate(async()=>{await navigator.serviceWorker.ready;await new Promise(ok=>{if(navigator.serviceWorker.controller)return ok();navigator.serviceWorker.addEventListener('controllerchange',ok,{once:true});});});
- check(await offline.evaluate(async()=>{const c=await caches.open('word-orbit-v1.0.6');return (await c.match('./assets/audio/space.mp3'))?.status===200&&(await c.match('./assets/audio/island.mp3'))?.status===200;}),'Both tracks precache for offline use');
+ check(await offline.evaluate(async()=>{const names=(await caches.keys()).filter(n=>n.startsWith('word-orbit-'));if(names.length!==1)return false;const c=await caches.open(names[0]);return (await c.match('./assets/audio/space.mp3'))?.status===200&&(await c.match('./assets/audio/island.mp3'))?.status===200&&(await c.match('./src/mistakes.js'))?.status===200&&(await c.match('./src/achievements.js'))?.status===200;}),'Music, corrections and achievements precache for offline use');
  await offlineContext.setOffline(true);await offline.reload();await offline.click('[data-act="theme"][data-theme="space"]');
  check(await offline.locator('.music-toggle').count()===1&&await offline.evaluate(async()=>{const r=await fetch('./assets/audio/island.mp3');return r.ok&&(await r.arrayBuffer()).byteLength>100000;}),'Page and music work after offline reload');
  console.log('TOTAL',checks);
