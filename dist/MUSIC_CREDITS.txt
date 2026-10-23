@@ -1,0 +1,19 @@
+Background music / 背景音乐
+
+"Carefree" Kevin MacLeod (incompetech.com)
+ISRC USUAN1400037
+Source: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400037
+Licensed under Creative Commons: By Attribution 4.0 License
+https://creativecommons.org/licenses/by/4.0/
+Changes: re-encoded to MP3, loudness normalized, looped in the website;
+excerpted, faded and lowered under narration in the demonstration video.
+
+"Cipher" Kevin MacLeod (incompetech.com)
+ISRC USUAN1100844
+Source: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100844
+Licensed under Creative Commons: By Attribution 4.0 License
+https://creativecommons.org/licenses/by/4.0/
+Changes: re-encoded to MP3, loudness normalized, looped in the website.
+
+Music is separately licensed; the application's source license does not
+replace these music licenses. Keep these credits when redistributing.

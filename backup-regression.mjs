@@ -14,7 +14,7 @@ let disk=JSON.stringify(valid);
 function tab(){
   const events={};
   const ctx=vm.createContext({console,Date,Math,JSON,Map,Set,Number,String,Object,Array,
-    navigator:{},localStorage:{getItem:()=>disk,setItem:(_key,value)=>{disk=value;}},
+    navigator:{},createMusicPlayer:()=>({sync(){}}),localStorage:{getItem:()=>disk,setItem:(_key,value)=>{disk=value;}},
     document:{addEventListener:(name,fn)=>{events[name]=fn;},querySelector:()=>({addEventListener(){}})},
     window:{addEventListener:(name,fn)=>{events[name]=fn;}}
   });
@@ -28,7 +28,9 @@ for(const broken of [
   {...valid,daily:null}, {...valid,daily:{today:null}}, {...valid,daily:{today:{totalN:'5'}}},
   {...valid,prog:null}, {...valid,prog:{apple:{hist:{}}}}, {...valid,prog:{apple:{stage:-1}}},
   {...valid,awards:null}, {...valid,awards:{apple:'5'}}, {...valid,xp:-1},
-  {...valid,settings:{newPerDay:'10'}}, {...valid,words:[{word:'apple',meaning:'苹果',bookId:'missing'}]}
+  {...valid,settings:{newPerDay:'10'}}, {...valid,settings:{backgroundMusic:'yes'}},
+  {...valid,settings:{musicVolume:1.1}}, {...valid,settings:{musicVolume:-.1}},
+  {...valid,words:[{word:'apple',meaning:'苹果',bookId:'missing'}]}
 ]) {
   const original=disk;
   a.ctx.testFile={size:1,text:async()=>JSON.stringify(broken)};
