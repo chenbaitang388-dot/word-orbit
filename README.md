@@ -47,12 +47,14 @@ node serve.mjs
 
 新版本修改 `dist/sw.js` 的 CACHE 版本号，离线客户端下次联网打开时更新。站点地址之间不会自动共享本机记录，请使用备份迁移。
 
+背景音乐默认相对音量 10%，保留用户已保存的滑块设置，同时统一降低实际播放增益并限制上限。按键、退格、正确和错误等音效播放期间进一步压低音乐，连续操作延长压低。与朗读同时发生时，分别等待结束后恢复，原有音效音色保持不变。
+
 ## 检查
 
 - `node backup-regression.mjs`：备份深校验、积分合并、多标签页冲突回归。
 - `node textbooks.test.mjs`：七册教材词库数量、原有词库兼容、同词多义、手机排版和离线缓存。
 - `node sound-keyboard.test.mjs`：差异化音效、静音、音量及站内拼写键盘。
-- `node music.test.mjs`：背景音乐开关、主题曲、音量、发音压低、后台暂停、自动播放限制和离线缓存。
+- `node music.test.mjs`：背景音乐开关、主题曲、音量、按键与发音自动压低、重叠恢复、后台暂停、自动播放限制和离线缓存。
 - `node core.test.mjs`：复习调度、选择题、解析等继承逻辑检查。
 - `node --test mistakes.test.mjs achievements.test.mjs`：三次改正、错误清零、重新收录、备份去重与徽章长期目标。
 - `node mistakes-browser.test.mjs`：真实页面错题流程、选词、备份及两种主题在手机、平板和电脑上的排版。

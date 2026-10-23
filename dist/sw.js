@@ -1,4 +1,4 @@
-const CACHE='word-orbit-v1.0.7';
+const CACHE='word-orbit-v1.0.8';
 const ASSETS=['./','./index.html','./styles.css','./base.css','./src/app.js','./src/sounds.js','./src/music.js','./src/mistakes.js','./src/achievements.js','./assets/audio/space.mp3','./assets/audio/island.mp3','./MUSIC_CREDITS.txt','./src/core.js','./src/state.js','./src/themes.js','./src/presets.js','./src/grade5.js','./src/textbooks.js','./assets/icon.svg','./assets/vendor/xlsx.full.min.js','./manifest.json'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('word-orbit-')&&key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));

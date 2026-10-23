@@ -30,10 +30,10 @@ const ISLAND = {
 };
 export const SOUND_PALETTES={space:SPACE,island:ISLAND};
 
-export function createSoundPlayer(getPreferences){
+export function createSoundPlayer(getPreferences,{onPlay=()=>{},onCancel=()=>{}}={}){
   let context=null,master=null,lastClick=-Infinity,generation=0;
   const active=new Set();
-  function cancel(){generation++;for(const oscillator of active){try{oscillator.stop();}catch{}}active.clear();}
+  function cancel(){generation++;for(const oscillator of active){try{oscillator.stop();}catch{}}active.clear();onCancel();}
   function play(kind='click',delay=0){
     const preferences=getPreferences();
     if(preferences.enabled===false||preferences.volume===0)return;
@@ -53,6 +53,7 @@ export function createSoundPlayer(getPreferences){
         const latest=getPreferences();
         if(request!==generation||latest.enabled===false||latest.volume===0)return;
         const volume=Number.isFinite(latest.volume)?Math.min(1,Math.max(0,latest.volume)):.4;
+        onPlay(Math.max(0,delay)+Math.max(...notes.map(([,offset,duration])=>offset+duration))+.031);
         master.gain.setValueAtTime(volume*.32,context.currentTime);
         for(const [frequency,offset,duration] of notes){
           if(active.size>=16){try{active.values().next().value.stop();}catch{}}

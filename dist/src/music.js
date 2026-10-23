@@ -4,10 +4,14 @@ export function createMusicPlayer(getPreferences) {
   audio.loop = true;
   audio.preload = 'none';
   let unlocked = false, theme = null, pending = false, generation = 0;
-  let speechGeneration = 0, speechTimer, ducked = false;
+  let speechGeneration = 0, speechTimer, speechDucked = false;
+  let effectTimer, effectUntil = 0;
   const volume = () => {
     const value = getPreferences().volume;
-    return (Number.isFinite(value) ? Math.max(0, Math.min(1, value)) : .18) * (ducked ? .12 : 1);
+    // The slider is a relative music level, with headroom for the short cues.
+    // Also applies to existing saved settings, including a previous 100% level.
+    const base = Math.min(.16, (Number.isFinite(value) ? Math.max(0, Math.min(1, value)) : .1) * .35);
+    return base * (effectUntil > performance.now() ? .04 : speechDucked ? .12 : 1);
   };
   function sync() {
     const preferences = getPreferences();
@@ -41,13 +45,22 @@ export function createMusicPlayer(getPreferences) {
   document.addEventListener('visibilitychange', sync);
   return {
     sync,
+    beginEffect(duration) {
+      effectUntil = Math.max(effectUntil, performance.now() + Math.max(0, duration) * 1000 + 120);
+      clearTimeout(effectTimer);
+      audio.volume = volume();
+      effectTimer = setTimeout(() => { effectUntil = 0; sync(); }, Math.max(0, effectUntil - performance.now()));
+    },
+    endEffects() {
+      clearTimeout(effectTimer); effectUntil = 0; sync();
+    },
     beginSpeech() {
       const request = ++speechGeneration;
       clearTimeout(speechTimer);
-      ducked = true; audio.volume = volume();
+      speechDucked = true; audio.volume = volume();
       const finish = () => {
         if (request !== speechGeneration) return;
-        clearTimeout(speechTimer); ducked = false; sync();
+        clearTimeout(speechTimer); speechDucked = false; sync();
       };
       // Some mobile speech engines never send end/error when interrupted.
       speechTimer = setTimeout(finish, 30000);
