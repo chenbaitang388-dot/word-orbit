@@ -1,4 +1,6 @@
+import {GRADE5} from './grade5.js';
 export const PRESETS = [
+ GRADE5,
  {id:'everyday',name:'你好，生活',subtitle:'从身边的事物开始',icon:'sun',color:'peach',level:'入门',words:[['hello','你好'],['goodbye','再见'],['name','名字'],['friend','朋友'],['family','家庭'],['mother','妈妈'],['father','爸爸'],['home','家'],['happy','开心的'],['morning','早晨'],['thank you','谢谢'],['please','请']]},
  {id:'animals',name:'动物观察站',subtitle:'认识你的动物朋友',icon:'paw',color:'mint',level:'入门',words:[['cat','猫'],['dog','狗'],['rabbit','兔子'],['bird','鸟'],['fish','鱼'],['tiger','老虎'],['lion','狮子'],['elephant','大象'],['panda','熊猫'],['monkey','猴子'],['bear','熊'],['duck','鸭子']]},
  {id:'food',name:'美味补给站',subtitle:'给大脑补充一点能量',icon:'apple',color:'pink',level:'入门',words:[['apple','苹果'],['banana','香蕉'],['orange','橙子'],['grape','葡萄'],['milk','牛奶'],['water','水'],['bread','面包'],['rice','米饭'],['egg','鸡蛋'],['cake','蛋糕'],['juice','果汁'],['carrot','胡萝卜']]},
