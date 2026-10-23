@@ -21,7 +21,7 @@ export function validBackup(p) {
   }
   if (!optional(p, 'xp', count) || !optional(p, 'lastExport', count)) return false;
   if (!optional(p, 'theme', value => value === null || typeof value === 'string')) return false;
-  if (!optional(p, 'settings', value => record(value) && numbers(value, ['newPerDay', 'reviewPerDay']) && optional(value, 'mode', v => ['auto', 'card', 'choice', 'spell'].includes(v)))) return false;
+  if (!optional(p, 'settings', value => record(value) && numbers(value, ['newPerDay', 'reviewPerDay']) && optional(value, 'mode', v => ['auto', 'card', 'choice', 'spell'].includes(v)) && optional(value, 'soundEffects', v => typeof v === 'boolean') && optional(value, 'soundVolume', v => Number.isFinite(v) && v >= 0 && v <= 1))) return false;
   for (const key of ['prog', 'daily', 'awards']) {
     if (!optional(p, key, value => record(value) && safeKeys(value))) return false;
   }

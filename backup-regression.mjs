@@ -3,7 +3,7 @@ import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 
 const read = path => readFileSync(new URL(path, import.meta.url), 'utf8');
-const logic = ['./dist/src/core.js','./dist/src/state.js','./dist/src/themes.js','./dist/src/presets.js'].map(path=>read(path).replace(/export /g, '')).join('\n');
+const logic = ['./dist/src/core.js','./dist/src/state.js','./dist/src/themes.js','./dist/src/grade5.js','./dist/src/sounds.js','./dist/src/presets.js'].map(path=>read(path).replace(/^import .*;\r?\n/gm, '').replace(/export /g, '')).join('\n');
 const app = read('./dist/src/app.js').replace(/^import .*;\r?\n/gm, '').replace(/^load\(\);render\(\);\r?$/m, '').replace(/^if\('serviceWorker'.*$/m, '');
 const valid = {
   version:1,theme:'space',books:[{id:'b1',name:'课堂单词'}],
