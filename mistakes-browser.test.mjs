@@ -1,6 +1,6 @@
 import { createRequire } from 'node:module';
 import { createServer } from 'node:http';
-import { readFile } from 'node:fs/promises';
+import { readFile, mkdir } from 'node:fs/promises';
 import { resolve, extname, sep } from 'node:path';
 import assert from 'node:assert/strict';
 
@@ -117,9 +117,16 @@ try {
       await endRound(layout);
     }
   }
+  const screenshots=resolve('../mistakes-qa');
+  await mkdir(screenshots,{recursive:true});
+  await layout.setViewportSize({width:390,height:844}); await notebook(layout);
+  await layout.screenshot({path:resolve(screenshots,'notebook-mobile-island.png'),fullPage:true});
+  await layout.locator('[data-act="theme"][data-theme="space"]').click();
+  await layout.screenshot({path:resolve(screenshots,'notebook-mobile-space.png'),fullPage:true});
   await layout.locator('.sidebar [data-act="nav"][data-view="rewards"]').click();
   check(await layout.locator('.badge-card').count()===40, 'Expanded achievement page renders all 40 badges');
   check(!(await layout.locator('#main').innerText()).includes('${'), 'Achievement page displays computed values rather than literal template expressions');
+  await layout.screenshot({path:resolve(screenshots,'badges-mobile-space.png'),fullPage:true});
   await layout.context().close();
   check(errors.length===0, `No browser runtime errors: ${errors.join('; ')}`);
   console.log(`TOTAL ${checks} browser checks passed`);
