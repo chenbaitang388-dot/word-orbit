@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101528"><meta name="description" content="选一个喜欢的世界，开启单词探险。双主题、趣味练习、自定义词库，无需账号，本机保存。">
+<title>Word Orbit · 单词探索站</title>
+<link rel="icon" type="image/svg+xml" href="./assets/icon.svg"><link rel="manifest" href="./manifest.json">
+<link rel="stylesheet" href="./base.css"><link rel="stylesheet" href="./styles.css">
+</head><body>
+<div id="app"></div>
+<dialog id="modal"><div id="modalContent"></div></dialog>
+<div id="toast" role="status" aria-live="polite" hidden></div>
+<input id="wordFile" type="file" accept=".csv,.txt,.tsv,.xlsx,.xls,.json" hidden>
+<input id="backupFile" type="file" accept=".json" hidden>
+<script src="./assets/vendor/xlsx.full.min.js" defer></script>
+<script type="module" src="./src/app.js"></script>
+</body></html>
